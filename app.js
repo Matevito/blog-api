@@ -15,12 +15,13 @@ require("./dependencies/mongoConfig");
 // 4. set up app routes
 
 
-// error handler
+// todo: error handler
 app.use((req, res, next) => {
+    
     console.log("Error handling Middleware called.");
     console.log("Path:", req.path);
     next(res.status(404));
 });
 
-//  run app on server
+// 6. run app on server
 app.listen(3000, console.log("App listening at http://localhost:3000."));

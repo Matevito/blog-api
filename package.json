@@ -11,6 +11,7 @@
   "author": "matevito",
   "license": "ISC",
   "devDependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^14.3.2",
     "eslint": "^8.7.0",
     "express": "^4.17.2",
