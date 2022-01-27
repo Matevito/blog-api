@@ -1,16 +1,17 @@
 const mongoose = require("mongoose");
+const { DateTime } = require("luxon");
 
 const postSchema = mongoose.Schema({
     title: { type: String, required: true, unique: true, maxLength: 200 },
     text: { type: String, required: true },
     author: { type: mongoose.Schema.ObjectId, ref: "User", required: true},
-    timeStamp: { type: Date, default: Date.now() },
+    timeStamp: { type: Date, default: DateTime.now() },
     published: { type: Boolean, default: false }
 });
 
 // method for formatted timeStamp
 postSchema.method.formatted_time = function() {
-    //todo:
+    return this.timeStamp.toLocaleString();
 };
 
 const Post = mongoose.model("Post", postSchema);
