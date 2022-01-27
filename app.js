@@ -24,4 +24,4 @@ app.use((req, res, next) => {
 });
 
 // 6. run app on server
-app.listen(3000, console.log("App listening at http://localhost:3000."));
+app.listen(3000, console.log("App listening at http://localhost:3000"));
