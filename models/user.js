@@ -8,10 +8,10 @@ const bcrypt = require("bcryptjs");
 require("dotenv").config({ path: '../.env' });
 
 const userSchema = mongoose.Schema({
-    username: { type: String, required:true, unique: true, maxLength: 100 },
-    password: { type: String, required: true },
+    username: { type: String, required:true, unique: true, minLength: 3, maxLength: 100 },
+    password: { type: String, required: true, minLength: 5 },
     firstName: { type: String, default: "", maxLength: 100 },
-    SecondName: { type: String, default: "", maxLength: 100},
+    secondName: { type: String, default: "", maxLength: 100},
     bio: { type: String },
     picture: { type: String, default: process.env.DEFAULT_PIC }
 });
