@@ -1,26 +1,30 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 require("dotenv").config();
 
 // 1. routes.
+const apiv1router = require("./routes/apiv1");
 
 // 2. create express app
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 
 // 3. connenct app to database
 require("./dependencies/mongoConfig");
 
 // 4. set up app routes
+app.use("/apiv1", apiv1router);
 
-
-// todo: error handler
-app.use((req, res, next) => {
-    
+// 5. todo: error handler
+app.use((err, req, res) => {
     console.log("Error handling Middleware called.");
     console.log("Path:", req.path);
-    next(res.status(404));
+    res.json({
+        "error": err,
+        "message": "error handling request."
+    })
 });
 
 // 6. run app on server
