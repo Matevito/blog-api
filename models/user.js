@@ -34,10 +34,8 @@ userSchema.pre("save", function(done) {
         });
     });
 });
-userSchema.methods.checkPassword = function(guess, done) {
-    bcrypt.compare(guess, this.password, (err, isMatch) => {
-        done(err, isMatch);
-    })
+userSchema.methods.checkPassword = function(guess) {
+    return bcrypt.compare(guess, this.password)
 };
 
 // user usual methods.
