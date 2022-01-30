@@ -2,6 +2,8 @@
 const User = require("../models/user");
 const Post = require("../models/post");
 
+const schemaUpdUser = require("../dependencies/updateSchemas/updUser");
+
 // I. public routes.
 
 exports.get_user = async (req, res) => {
@@ -70,13 +72,50 @@ exports.get_userList = async (req, res) => {
 }
 
 // II. protected routes.
-exports.put_user = (req, res) => {
 
-    res.json({
-        error: null,
-        message: "edit user if req.user == id user.",
-        user: req.user
+exports.put_user = async (req, res) => {
+    // 1. check if the user is the same of the request.
+    const request_id = req.params.id;
+    const token_id = req.user.id
+
+    if (request_id !== token_id) {
+        res.status(401).json({
+            error: "Access denied"
+        })
+    }
+    // 2. format new user data.
+    const { error } = schemaUpdUser.validate(req.body);
+    if (error) {
+        return res.status(400).json({
+            error: error.details[0].message
+        })
+    }
+    const old_user = await User.findById(token_id);
+    if (!old_user) {
+        return res.status(400).json({
+            error: "User not found."
+        })
+    }
+    const updt_user = new User({
+        _id: old_user._id,
+        username: old_user.username,
+        password: old_user.password,
+        firstName: req.body.firstName,
+        secondName: req.body.secondName,
+        bio: req.body.bio,
+        picture: req.body.picture
     })
+
+    // 3. save new user and send a reponsonse
+    try {
+        const updatedUser = await User.findByIdAndUpdate(old_user._id, updt_user);
+        res.json({
+            error: null,
+            message: "user successfully updated."
+        })
+    } catch (error) {
+        res.status(400).json({error})
+    }
 };
 
 exports.get_posts = async (req, res) => {
