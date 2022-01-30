@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-// eslint-disable-next-line no-unused-vars
 require("dotenv").config({ path: '../' })
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
@@ -38,7 +37,6 @@ exports.login_post = async (req, res) => {
     }
     const secret = process.env.TOKEN_SECRET;
     const opts = { expiresIn: "14d" };
-
     const token = jwt.sign(userData, secret, opts);
 
     res.header('auth-token', token).json({
