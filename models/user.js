@@ -48,7 +48,7 @@ userSchema.methods.displayName = function() {
         return this.firstName;
     } else {
         // return formatted second and first names.
-        return this.SecondName + ", " + this.firstName
+        return this.secondName + ", " + this.firstName
     }
 };
 
