@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const express = require("express");
 const verifyToken = require("../dependencies/validate-token");
 
@@ -14,10 +15,10 @@ router.post("/sign-in", authController.signin_post);
 
 // 2. USERS ROUTES
 
+    // list of all users
+router.get("/users", usersController.get_userList);
     // get user info. / except no unpublished posts ids.
 router.get("/user/:id", usersController.get_user);
-    // list of all users
-router.get("/user/list", usersController.get_usersList);
 
     // edit user info
 router.put("/user/:id", verifyToken, usersController.put_user);
@@ -27,6 +28,7 @@ router.get("/user/:id/posts", verifyToken, usersController.get_posts);
 // 3. POST ROUTES
 
 // 4. COMMENTS ROUTES.
+
 /* testing token
 router.use("/check", verifyToken, (req, res) => {
     res.json({
