@@ -20,7 +20,7 @@ exports.get_user = async (req, res) => {
     }
 
     // 2. format data
-        // only send posts already published in the app
+        // only send posts already published in the app // published === true
     const publicPosts = userPosts.map(post => {
         if (post.published) {
             return post
@@ -70,15 +70,38 @@ exports.get_userList = async (req, res) => {
 }
 
 // II. protected routes.
-// todo:
 exports.put_user = (req, res) => {
+
     res.json({
-        message: "edit user if req.user == id user."
+        error: null,
+        message: "edit user if req.user == id user.",
+        user: req.user
     })
 };
 
-exports.get_posts = (req, res) => {
+exports.get_posts = async (req, res) => {
+    /* 1. check if the user is the same of the parsed token
+    if they are not the same, he has no acces to post not published */
+    const request_id = req.params.id;
+    const token_id = req.user.id
+    if (request_id !== token_id) {
+        res.status(401).json({
+            error: "Access denied"
+        })
+    }
+
+    // 2. Search all user posts.
+    const userPosts = await Post.find({ "author": token_id });
+    if (!userPosts) {
+        return res.status(400).json({
+            error: "Error fetching data"
+        })
+    }
+
+    // 3. send data
     res.json({
-        message: "send posts if req.user == id.user"
+        error: null,
+        message: "List of all user posts send successfully",
+        data: userPosts
     })
 }
