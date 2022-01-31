@@ -93,9 +93,31 @@ exports.update_post = async (req, res) => {
         })
     }
     // 3. refactor new article object
+    const oldArticle = await Post.findById(articleId);
+    if (!oldArticle) {
+        return res.status(400).json({
+            error: "Error fetching data"
+        })
+    }
+    const updatedArticle = new Post({
+        _id: oldArticle._id,
+        title: req.body.title,
+        text: req.body.text,
+        author: oldArticle.author,
+        timeStamp: oldArticle.timeStamp,
+        published: oldArticle.published
+    })
 
     // 4. save the article and make a response
-    res.send("todo: update")
+    try {
+        const savedArticle = await Post.findByIdAndUpdate(articleId, updatedArticle);
+        res.json({
+            error: null,
+            message: "article updated!"
+        })
+    } catch (error) {
+        res.status(400).json({ error })
+    }
 };
 
 exports.delete_post = async (req, res) => {
