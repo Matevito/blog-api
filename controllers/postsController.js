@@ -2,15 +2,43 @@
 const User = require("../models/user");
 const Post = require("../models/post");
 const schemaPost = require("../dependencies/postSchemas/postSchema");
+const lastFirst = require("../dependencies/lastFirst");
 
 // I. Public route
 exports.get_postList = async (req, res) => {
-    //todo: return all posts in database
-    res.send("todo:")
+    // 1. call all post on database
+    const post_list = await Post.find().populate("author", ["username"]);
+    if (!post_list) {
+        return res.status(400).json({
+            error: "Post list not found."
+        })
+    }
+    // 2. order list of post acording to i'ts date
+    const sorted_list = lastFirst(post_list);
+
+    // 3. send the formatted list.
+    res.json({
+        error: null,
+        message: "returned all posts successfully.",
+        data: sorted_list
+    })
 };
+
 exports.get_post = async (req, res) => {
-    //todo: return post with :id
-    res.send("todo:")
+    // return post with :id
+    const post = await Post.findById(req.params.id).populate("author", ["username", "firstName", "secondName"]);
+    if (!post) {
+        return res.status(400).json({
+            error: "Post not found-"
+        })
+    }
+
+    // send response
+    res.json({
+        error: null,
+        message: "Found post successfully",
+        data: post
+    })
 };
 
 // II. private route
