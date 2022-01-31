@@ -74,8 +74,28 @@ exports.create_article = async (req, res) => {
 };
 
 exports.update_post = async (req, res) => {
-//todo: update post with :id
-    res.send("todo:")
+    //   update post with :id
+    // 1. check if the user is authorized to chenge it's article
+    const tokenId = req.user.id;
+    const articleId = req.params.id;
+    const authorAutentication = await checkUserInPost(tokenId, articleId)
+    if (!authorAutentication) {
+    return res.status(401).json({
+        error: "Access denied."
+        })
+    }
+
+    // 2. parse data of post changes.
+    const { error } = schemaPost.validate(req.body);
+    if (error) {
+        return res.status(400).json({
+            error: error.details[0].message
+        })
+    }
+    // 3. refactor new article object
+
+    // 4. save the article and make a response
+    res.send("todo: update")
 };
 
 exports.delete_post = async (req, res) => {
