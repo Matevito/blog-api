@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const User = require("../models/user");
 const Post = require("../models/post");
+const schemaPost = require("../dependencies/postSchemas/postSchema");
 
 // I. Public route
 exports.get_postList = async (req, res) => {
@@ -14,8 +15,32 @@ exports.get_post = async (req, res) => {
 
 // II. private route
 exports.create_article = async (req, res) => {
-//todo: create post
-    res.send("todo:")   
+    //1. format new post data.
+    const { error } = schemaPost.validate(req.body);
+    if (error) {
+        return res.status(400).json({
+            error: error.details[0].message
+        })
+    }
+
+    //2. make new article object
+    const new_post = new Post({
+        title: req.body.title,
+        text: req.body.text,
+        author: req.user.id
+    })
+
+    //3. save the article and send the response.
+    try {
+        const savedPost = await new_post.save()
+        res.json({
+            error: null,
+            message: "post successfully created",
+            data: savedPost
+        })
+    } catch (error) {
+        res.status(400).json({ error })
+    }
 };
 
 exports.update_post = async (req, res) => {
