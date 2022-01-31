@@ -33,7 +33,7 @@ router.get("/post/list", postsController.get_postList);
 router.get("/post/:id", postsController.get_post);
 
 router.put("/post/:id", verifyToken, postsController.update_post);
-router.delete("post/:id", verifyToken, postsController.delete_post);
+router.delete("/post/:id", verifyToken, postsController.delete_post);
 router.put("/post/:id/publish", verifyToken, postsController.publish_post);
 
 // 4. COMMENTS ROUTES.

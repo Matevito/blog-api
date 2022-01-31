@@ -121,13 +121,32 @@ exports.update_post = async (req, res) => {
 };
 
 exports.delete_post = async (req, res) => {
-    res.send("todo:")
-//todo: delete post with :id
+    // delete post with :id
+    // 1. check if the user is authorized to change it's article
+    const tokenId = req.user.id;
+    const articleId = req.params.id;
+    const authorAutentication = await checkUserInPost(tokenId, articleId)
+    if (!authorAutentication) {
+        return res.status(401).json({
+            error: "Access denied."
+        })
+    }
+
+    // 2. attempt to delete the article and send a response.
+    try {
+        await Post.findByIdAndRemove(articleId);
+        res.json({
+            error: null,
+            message: "article deleted!"
+        })
+    } catch(error) {
+        res.status(400).json({ error })
+    }
 };
 
 exports.publish_post = async (req, res) => {
     // publish or unpublish post with :id
-    // 1. check if the user is authorized to chenge it's article
+    // 1. check if the user is authorized to change it's article
     const tokenId = req.user.id;
     const articleId = req.params.id;
     const authorAutentication = await checkUserInPost(tokenId, articleId)
