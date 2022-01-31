@@ -3,7 +3,6 @@ require("dotenv").config({ path: '../' })
 const jwt = require("jsonwebtoken");
 
 // middleware to validate protected routes.
-
 const verifyToken = (req, res, next) => {
     const token = req.header("auth-token");
     

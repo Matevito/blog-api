@@ -3,8 +3,10 @@ const User = require("../models/user");
 const Post = require("../models/post");
 const schemaPost = require("../dependencies/postSchemas/postSchema");
 const lastFirst = require("../dependencies/lastFirst");
+const checkUserInPost = require("../dependencies/checkUserInPost");
 
 // I. Public route
+// todo: if post not published, redirect the response
 exports.get_postList = async (req, res) => {
     // 1. call all post on database
     const post_list = await Post.find().populate("author", ["username"]);
@@ -82,6 +84,50 @@ exports.delete_post = async (req, res) => {
 };
 
 exports.publish_post = async (req, res) => {
-    res.send("todo:")
-//todo: publish post with :id
+    // publish or unpublish post with :id
+    // 1. check if the user is authorized to chenge it's article
+    const tokenId = req.user.id;
+    const articleId = req.params.id;
+    const authorAutentication = await checkUserInPost(tokenId, articleId)
+    if (!authorAutentication) {
+        return res.status(401).json({
+            error: "Access denied."
+        })
+    }
+
+    // 2. refactor the new article object
+    const oldArticle = await Post.findById(articleId);
+    if (!oldArticle) {
+        return res.status(400).json({
+            error: "Error fetching data"
+        })
+    }
+
+        // change the boolean value of the oldArticle.
+    let publishStatus;
+    if (oldArticle.published === true) {
+        publishStatus = false
+    } else {
+        publishStatus = true
+    }
+
+    const updatedArticle = new Post({
+        _id: oldArticle._id,
+        title: oldArticle.title,
+        text: oldArticle.text,
+        author: oldArticle.author,
+        timeStamp: oldArticle.timeStamp,
+        published: publishStatus
+    })
+
+    // 3. save the article and send a response
+    try {
+        const savedArticle = await Post.findByIdAndUpdate(articleId, updatedArticle);
+        res.json({
+            error: null,
+            message: "article publish status changed successfully.",
+        })
+    } catch (error) {
+        res.status(400).json({ error })
+    }
 }

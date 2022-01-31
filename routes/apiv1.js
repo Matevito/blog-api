@@ -25,8 +25,10 @@ router.put("/user/:id", verifyToken, usersController.put_user);
 router.get("/user/:id/posts", verifyToken, usersController.get_posts);
 
 // 3. POST ROUTES
+    // create mew post(article)
 router.post("/post", verifyToken, postsController.create_article);
 
+    // return list of post or a particular one
 router.get("/post/list", postsController.get_postList);
 router.get("/post/:id", postsController.get_post);
 
