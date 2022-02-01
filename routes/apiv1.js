@@ -42,15 +42,7 @@ router.put("/post/:id/publish", verifyToken, postsController.publish_post);
 router.get("/post/:id/comment/list", verifyArtStatus, commentsController.get_commentList);
 router.post("/post/:id/comment", verifyArtStatus, commentsController.create_comment);
     // dele the message, but just do not display the original message!
-router.put("post/:id/comment/:commentID",verifyToken, verifyArtStatus, commentsController.delete_comment);
+router.put("/post/:id/comment/:commentID",verifyToken, verifyArtStatus, commentsController.delete_comment);
 
-/* testing token
-router.use("/check", verifyToken, (req, res) => {
-    res.json({
-        error: null,
-        message: "is working"
-    })
-})
-*/
-
+// export router
 module.exports = router;
