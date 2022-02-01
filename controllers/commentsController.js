@@ -23,7 +23,7 @@ exports.create_comment  = async (req, res) => {
         const savedComment = await new_comment.save()
         res.json({
             error: null,
-            message: "todo: create coment.",
+            message: "comment created successfully!",
         })
     } catch (error) {
         res.tatus(400).json({ error })
@@ -31,8 +31,18 @@ exports.create_comment  = async (req, res) => {
 };
 
 exports.get_commentList = async (req, res) => {
+    const commentList = await Comment.find({ "post": req.params.id });
+    if (!commentList) {
+        return res.status(400).json({
+            error: "Error fetching data."
+        })
+    }
+
+    const sortedComments = lastFirst(commentList);
+
     res.json({
         error: null,
-        message: "todo: send comments from the post."
+        message: "todo: send comments from the post.",
+        data: sortedComments,
     })
 }

@@ -42,7 +42,7 @@ exports.get_post = async (req, res) => {
 
     // stop if the post is not published yet!
     if (!post.published) {
-        return res.json({
+        return res.status(401).json({
             error: "Access denied"
         })
     }
