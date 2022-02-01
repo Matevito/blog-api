@@ -7,7 +7,7 @@ const checkUserInPost = require("../dependencies/checkUserInPost");
 // I. Public route
 exports.get_postList = async (req, res) => {
     // 1. call all post on database
-    const post_list = await Post.find().populate("author", ["username"]);
+    const post_list = await Post.find({ "published": true }).populate("author", ["username"]);
     if (!post_list) {
         return res.status(400).json({
             error: "Post list not found."
@@ -15,18 +15,12 @@ exports.get_postList = async (req, res) => {
     }
     // 2. order list of post acording to i'ts date
     const sorted_list = lastFirst(post_list);
-        // if post is not published remove it from the list
-    const published_list = sorted_list.filter((article) => {
-        if (article.published) {
-            return article
-        }
-    })
 
     // 3. send the formatted list.
     res.json({
         error: null,
         message: "returned all posts successfully.",
-        data: published_list,
+        data: sorted_list,
         
     })
 };
