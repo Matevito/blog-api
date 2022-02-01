@@ -23,7 +23,7 @@ exports.get_user = async (req, res) => {
 
     // 2. format data
         // only send posts already published in the app // published === true
-    const publicPosts = userPosts.map(post => {
+    const publicPosts = userPosts.filter(post => {
         if (post.published) {
             return post
         }
@@ -36,7 +36,7 @@ exports.get_user = async (req, res) => {
         displayName: user.displayName(),
         bio: user.secondName,
         picture: user.picture,
-        posts: userPosts
+        posts: publicPosts
     }
 
     // 3. json response
@@ -125,7 +125,7 @@ exports.get_posts = async (req, res) => {
     const token_id = req.user.id
     if (request_id !== token_id) {
         res.status(401).json({
-            error: "Access denied"
+            error: "Access denied",
         })
     }
 

@@ -17,12 +17,18 @@ exports.get_postList = async (req, res) => {
     }
     // 2. order list of post acording to i'ts date
     const sorted_list = lastFirst(post_list);
+        // if post is not published remove it from the list
+    const published_list = sorted_list.filter((article) => {
+        if (article.published) {
+            return article
+        }
+    })
 
     // 3. send the formatted list.
     res.json({
         error: null,
         message: "returned all posts successfully.",
-        data: sorted_list
+        data: published_list
     })
 };
 
@@ -32,6 +38,13 @@ exports.get_post = async (req, res) => {
     if (!post) {
         return res.status(400).json({
             error: "Post not found-"
+        })
+    }
+
+    // stop if the post is not published yet!
+    if (!post.published) {
+        return res.json({
+            error: "Access denied"
         })
     }
 
