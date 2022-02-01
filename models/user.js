@@ -12,8 +12,7 @@ const userSchema = mongoose.Schema({
     password: { type: String, required: true, minLength: 5 },
     firstName: { type: String, default: "", maxLength: 100 },
     secondName: { type: String, default: "", maxLength: 100},
-    bio: { type: String },
-    picture: { type: String, default: process.env.DEFAULT_PIC }
+    bio: { type: String }
 });
 
 // handle password schemas.

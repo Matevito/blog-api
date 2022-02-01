@@ -71,14 +71,13 @@ exports.signin_post = async (req, res) => {
         firstName: req.body.firstName || "",
         secondName : req.body.secondName || "",
         bio: req.body.bio || "",
-        picture: req.body.picture
     })
 
     try {
-        const savedUser = await new_user.save();
+        await new_user.save();
         res.json({
             error: null,
-            data: savedUser
+            message: "User created successfully"
         })
 
     } catch (err) {

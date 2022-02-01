@@ -14,5 +14,9 @@ postSchema.method.formatted_time = function() {
     return this.timeStamp.toLocaleString();
 };
 
+postSchema.method.publicUrl = function() {
+    return  "/post/" + this._id
+}
+
 const Post = mongoose.model("Post", postSchema);
 module.exports = Post;

@@ -35,7 +35,6 @@ exports.get_user = async (req, res) => {
         secondName: user.secondName,
         displayName: user.displayName(),
         bio: user.secondName,
-        picture: user.picture,
         posts: publicPosts
     }
 
@@ -102,8 +101,7 @@ exports.put_user = async (req, res) => {
         password: old_user.password,
         firstName: req.body.firstName,
         secondName: req.body.secondName,
-        bio: req.body.bio,
-        picture: req.body.picture
+        bio: req.body.bio
     })
 
     // 3. save new user and send a reponsonse
