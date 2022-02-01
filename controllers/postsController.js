@@ -1,12 +1,10 @@
 /* eslint-disable no-unused-vars */
-const User = require("../models/user");
 const Post = require("../models/post");
 const schemaPost = require("../dependencies/postSchemas/postSchema");
 const lastFirst = require("../dependencies/lastFirst");
 const checkUserInPost = require("../dependencies/checkUserInPost");
 
 // I. Public route
-// todo: if post not published, redirect the response
 exports.get_postList = async (req, res) => {
     // 1. call all post on database
     const post_list = await Post.find().populate("author", ["username"]);
@@ -28,7 +26,8 @@ exports.get_postList = async (req, res) => {
     res.json({
         error: null,
         message: "returned all posts successfully.",
-        data: published_list
+        data: published_list,
+        
     })
 };
 

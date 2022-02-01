@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const express = require("express");
 const verifyToken = require("../dependencies/validate-token");
+const verifyArtStatus = require("../dependencies/verifyArtStatus");
 
 const router = express.Router();
 
@@ -37,8 +38,9 @@ router.delete("/post/:id", verifyToken, postsController.delete_post);
 router.put("/post/:id/publish", verifyToken, postsController.publish_post);
 
 // 4. COMMENTS ROUTES.
-router.get("/post/:id/list")
-router.post("/post/:id/comment")
+    // send this info with get post/:id ? 
+router.get("/post/:id/comment/list", verifyArtStatus, commentsController.get_commentList);
+router.post("/post/:id/comment", verifyArtStatus, commentsController.create_comment);
 
 /* testing token
 router.use("/check", verifyToken, (req, res) => {
