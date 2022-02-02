@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 /*  process.env.SALT_FACTOR
     process.env.DEFAULT_PIC
 */
-require("dotenv").config({ path: '../.env' });
+if (process.env.NODE_ENV !== 'production') require("dotenv").config({ path: '../.env' });
 
 const userSchema = mongoose.Schema({
     username: { type: String, required:true, unique: true, minLength: 3, maxLength: 100 },

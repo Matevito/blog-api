@@ -2,7 +2,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
-require("dotenv").config();
+if (process.env.NODE_ENV !== 'production') require("dotenv").config();
 let port = process.env.PORT || 3000;
 
 // 1. routes.

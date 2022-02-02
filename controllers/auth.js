@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-require("dotenv").config({ path: '../' })
+if (process.env.NODE_ENV !== 'production') require("dotenv").config({ path: '../' })
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
