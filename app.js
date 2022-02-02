@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const helmet = require("helmet");
 require("dotenv").config();
 
 // 1. routes.
@@ -7,6 +8,7 @@ const apiv1router = require("./routes/apiv1");
 
 // 2. create express app
 const app = express();
+app.use(helmet())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
