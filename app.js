@@ -2,6 +2,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
+const cors = require("cors");
 if (process.env.NODE_ENV !== 'production') require("dotenv").config();
 let port = process.env.PORT || 3000;
 
@@ -11,6 +12,7 @@ const apiv1router = require("./routes/apiv1");
 // 2. create express app
 const app = express();
 app.use(helmet())
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
