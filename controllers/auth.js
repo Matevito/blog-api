@@ -84,3 +84,13 @@ exports.signin_post = async (req, res) => {
         res.status(400).json({err})
     }
 };
+
+exports.get_whoAmI = (req, res) => {
+    // route protected. ONly valid token can access this!
+    // return the user data of the tokn attached to the route!
+    res.json({
+        error: null,
+        message:"Succesfully send data of user",
+        data: req.user
+    })
+}

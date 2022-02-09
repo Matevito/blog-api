@@ -13,7 +13,7 @@ const commentsController = require("../controllers/commentsController");
 // 1. AUTH ROUTES
 router.post("/log-in", authController.login_post);
 router.post("/sign-in", authController.signin_post);
-
+router.get("/whoami", verifyToken, authController.get_whoAmI)
 // 2. USERS ROUTES
 
     // list of all users
