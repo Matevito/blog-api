@@ -21,9 +21,6 @@ app.use(bodyParser.json());
 require("./dependencies/mongoConfig");
 
 // 4. set up app routes
-app.use("/", (req, res) => {
-    res.send("landing page... app is running!")
-})
 app.use("/apiv1", apiv1router);
 
 // 5. todo: error handler
