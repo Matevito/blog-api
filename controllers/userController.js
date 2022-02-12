@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const User = require("../models/user");
 const Post = require("../models/post");
+const lastFirst = require("../dependencies/lastFirst");
 
 const schemaUpdUser = require("../dependencies/updateSchemas/updUser");
 
@@ -134,11 +135,11 @@ exports.get_posts = async (req, res) => {
             error: "Error fetching data"
         })
     }
-
+    const post_list = lastFirst(userPosts)
     // 3. send data
     res.json({
         error: null,
         message: "List of all user posts send successfully",
-        data: userPosts
+        data: post_list
     })
 }
