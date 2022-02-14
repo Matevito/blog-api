@@ -35,7 +35,7 @@ exports.get_user = async (req, res) => {
         firstName: user.firstName,
         secondName: user.secondName,
         displayName: user.displayName(),
-        bio: user.secondName,
+        bio: user.bio,
         posts: publicPosts
     }
 
