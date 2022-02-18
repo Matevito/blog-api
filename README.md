@@ -3,9 +3,9 @@ BLOG API
 BLOG API is a basic rest api that can works as a backend of a blog  application. Is built on express and uses mongodDB as adatabase. It handles most of the basic CRUD opperations and it uses tokens to handle authentication of the authors of your blog.
 The app works only with 3 kind of models:
 
--USER (authors in your blog app)
--POST (article)
--COMMENT (comments of the articles).
+- USER (authors in your blog app)
+- POST (article)
+- COMMENT (comments of the articles).
 
 If you feel more confortable using other type of dtabases like sql or other types of nosql it's recomended to use other kind of app cause all of the crud operations in the routes, and a couple of middlewares too, have in mind mongoDB.
 
